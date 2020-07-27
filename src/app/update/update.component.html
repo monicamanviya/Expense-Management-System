@@ -1,0 +1,83 @@
+<div class=" btn-primary">
+    <h1 class="btn btn-lg btn-block" style="color: white;text-align: left;">Updating an Expense Claimed</h1>
+</div>
+
+<br>
+<br>
+
+<div class="container">
+
+    <label style="font-size: large;"><b>Expense Code </b></label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Enter the Expense Code " [(ngModel)]="updateIndex"
+            (input)="getExpenseById()">
+        <!-- <div class="input-group-append">
+            <button class="input-group-text" class="btn btn-primary" data-toggle="collapse"
+                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                (click)=findExpenseById() [disabled]="updateIndex==null">Search</button>
+        </div> -->
+    </div>
+
+    <div *ngIf="updateIndex && !expenseClaimedService.claimed" class="alert alert-danger"> Id doesn't exists </div>
+
+    <div *ngIf="updateIndex && expenseClaimedService.claimed">
+        <!-- form for update -->
+        <form [formGroup]="myform" (ngSubmit)="updateExpenseClaimed()">
+            <label style="font-size: large;"><b>Employee ID </b></label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" value="{{ expenseClaimedService.claimed.empId }}"
+                    [(ngModel)]="expenseClaimedService.claimed.empId" formControlName="empId" readonly>
+            </div>
+
+
+            <label style="font-size: large;"><b>Project Code </b></label>
+            <div class="input-group mb-3">
+                <!-- <input type="text" class="form-control" value="{{expenseClaimedService.claimed.projectCode}}" (input)="findAllProjects()" [(ngModel)]="expenseClaimedService.claimed.projectCode"
+                 formControlName="projectcode"> -->
+                <select class="form-control" value="{{expenseClaimedService.claimed.projectCode}}"
+                    formControlName="projectcode" [(ngModel)]="expenseClaimedService.claimed.projectCode">
+                    <option *ngFor="let p of projects">{{p.projectCode}}</option>
+                </select>
+            </div>
+
+            <label style="font-size: large;"><b>Expense Id </b></label>
+            <div class="input-group mb-3">
+                <!-- <input type="text" class="form-control" value="{{expenseClaimedService.claimed.expenseId}}" [(ngModel)]="expenseClaimedService.claimed.expenseId" 
+                formControlName="expensecode"> -->
+                <select class="form-control" value="{{expenseClaimedService.claimed.expenseId}}"
+                    formControlName="expensecode" [(ngModel)]="expenseClaimedService.claimed.expenseId"  >
+                    <option *ngFor="let e of Expenses">{{e.expense_code}}</option>
+                </select>
+            </div>
+
+            <label style="font-size: large;"><b>Start Date</b></label>
+            <div class="input-group mb-3">
+                <input type="date" class="form-control" value="{{expenseClaimedService.claimed.startDate}}"
+                    [(ngModel)]="expenseClaimedService.claimed.startDate" formControlName="start"
+                    [ngClass]="{ 'is-invalid': f.start.errors&&(f.start.touched||f.start.dirty) }" required>
+                <div *ngIf="f.start.errors&&(f.start.touched||f.start.dirty)" class="invalid-feedback">Enter valid date
+                </div>
+            </div>
+            <div *ngIf="myform.errors?.dates1" class="alert alert-danger">{{ myform.errors?.dates1}}</div>
+
+            <label style="font-size: large;"><b>End Date</b></label>
+            <div class="input-group mb-3">
+                <input type="date" class="form-control" value="{{expenseClaimedService.claimed.endDate}}"
+                    [(ngModel)]="expenseClaimedService.claimed.endDate" formControlName="end"
+                    [ngClass]="{ 'is-invalid': f.end.errors &&(f.end.touched||f.end.dirty)}" required>
+            </div>
+            <div *ngIf="myform.errors?.dates" class="alert alert-danger">{{ myform.errors?.dates}}</div>
+            <div *ngIf="myform.errors?.dates2" class="alert alert-danger">{{ myform.errors?.dates2}} </div>
+            <label style="font-size: large;"><b>Expense Amount</b></label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" value="{{expenseClaimedService.claimed.expenseAmt}}"
+                    [(ngModel)]="expenseClaimedService.claimed.expenseAmt" formControlName="amount"
+                    [ngClass]="{ 'is-invalid': f.amount.errors &&(f.amount.touched||f.amount.dirty)}" required>
+                <div *ngIf="f.amount.errors&&!(f.amount.touched||f.amount.dirty)" class="invalid-feedback">Enter valid
+                    amount</div>
+            </div>
+            <div *ngIf="f.amount.errors?.min || f.amount.errors?.max" class="alert alert-danger">Please enter valid Amount</div>
+            <button class="btn btn-primary" type="submit" [disabled]="!myform.valid">Update </button>
+        </form>
+    </div>
+</div>

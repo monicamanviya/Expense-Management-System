@@ -1,0 +1,4 @@
+com\cg\ems\ProjectCodeModule\repo\ProjectRepository.class
+com\cg\ems\ProjectCodeModule\bean\ProjectDetails.class
+com\cg\ems\ProjectCodeModule\controller\ProjectController.class
+com\cg\ems\ProjectCodeModule\ProjectCodeModuleApplication.class

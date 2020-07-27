@@ -1,0 +1,16 @@
+<div class=" btn-primary">
+    <h1 class="btn btn-lg btn-block" style="color: white;text-align: left;">Deleting an Expense Claimed</h1>
+</div>
+<div class="container">
+    <br>
+    <br>
+    <label style="font-size: large;" class="input-group mb-3"><b>Expense Code</b></label>
+
+    <input type="text" class="form-control" placeholder="Enter the Expense Code ID" [(ngModel)]="code"
+        (input)="findExpenseClaimById()">
+    <div *ngIf="code && !searchedClaim" class="alert alert-danger"> Id doesn't exists </div>
+    <br>
+    <button class="input-group-text mb-3" class="btn btn-primary" (click)="deleteById()"
+        [disabled]="!searchedClaim">Delete</button>
+
+</div>

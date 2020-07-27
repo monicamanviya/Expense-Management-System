@@ -1,0 +1,11 @@
+.center {
+    display: flex;
+    background-color:cornflowerblue;
+    justify-content: center;
+    height: 94.5vh;
+  }
+  
+  
+  .center h1{
+    align-self: center;
+  }

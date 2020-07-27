@@ -1,0 +1,184 @@
+<div class=" btn-primary">
+    <h1 class="btn btn-lg btn-block" style="color: white;text-align: left;">Claiming an Expense</h1>
+</div>
+<div class="container">
+    <form [formGroup]="myform" (ngSubmit)="addExpenseClaimed();">
+        <br>
+        <br>
+
+        <label style="font-size: large;"><b>Employee ID</b></label>
+
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" placeholder="Enter Employee ID" formControlName="empId"
+                [(ngModel)]="employeeId" required (input)="selectEmployeeById()" 
+                [ngClass]="{ 'is-invalid': f.empId.errors&&(f.empId.touched||f.empId.dirty)}">
+        </div>
+
+        <div *ngIf="!employeeService.employees[0] && employeeId" class="alert alert-danger"> Id doesn't exists </div>
+
+        <div *ngIf="employeeService.employees[0] && employeeId">
+
+            <div>
+
+                <table class="table" *ngFor="let employee of employeeService.employees">
+                    <thead>
+                        <tr>
+                            <th scope="col">EMP ID</th>
+                            <th scope="col">Emp NAME</th>
+                            <th scope="col">Emp PAN</th>
+                            <th scope="col">Emp DESIGNATION</th>
+                            <th scope="col">Emp DOMAIN</th>
+                            <th scope="col">Emp DOJ</th>
+                            <th scope="col">Emp DOB</th>
+                            <th scope="col">Emp SALARY</th>
+                            <th scope="col">Emp MAILID</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <th>{{employee.employeeId}}</th>
+                            <td>{{employee.employeeName}}</td>
+                            <td>{{employee.employeePan}}</td>
+                            <td>{{employee.employeeDesignation}}</td>
+                            <td>{{employee.employeeDomain}}</td>
+                            <td>{{employee.employeeDoj}}</td>
+                            <td>{{employee.employeeDob}}</td>
+                            <td>{{employee.employeeSalary}}</td>
+                            <td>{{employee.employeeMailid}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <label style="font-size: large;"><b>Project Code</b></label>
+
+        <div class="input-group mb-3">
+            <select class="form-control" formControlName="projectcode" [(ngModel)]="projectCode" (change)="getProject()">
+                <option selected>--Select project code--</option>
+                <option *ngFor="let p of projects">{{p.projectCode}}</option>
+            </select>
+        </div>
+
+        <div *ngIf="projectCode">
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">PROJECT CODE </th>
+                            <th scope="col">START DATE</th>
+                            <th scope="col">END DATE</th>
+                            <th scope="col">BUSINESS UNIT</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody *ngFor="let Project of projectService.Projects">
+                        <tr>
+                            <th>{{Project.projectCode}}</th>
+                            <td>{{Project.startDate}}</td>
+                            <td>{{Project.endDate}}</td>
+                            <td>{{Project.businessUnti}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <label style="font-size: large;"><b>Expense Type</b></label>
+        <div class="input-group mb-3">
+        <select class="form-control" formControlName="expensecode" [(ngModel)]="expense_type" (change)="getAll()">
+            <option selected>--Select Expense code--</option>
+            <option *ngFor="let e of Expenses ">{{e.expense_type}}</option>
+          </select>
+        </div>
+        <div *ngIf="code" >
+          <div>
+            
+            
+              <table class="table" >
+                <thead>
+                  <tr>
+                    <th scope="col">EXPENSE CODE</th>
+                    <th scope="col">EXPENSE TYPE</th>
+                    <th scope="col">EXPENSE DESCRIPTION</th>
+                    
+                  </tr>
+                </thead>
+            
+                <tbody *ngFor="let expense of expenseService.Expenses" >
+                  <tr>
+                    <th>{{expense.expense_code}}</th>
+                    <td>{{expense.expense_type}}</td>
+                    <td>{{expense.expense_description}}</td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+          </div>
+
+
+        <!-- <div class="input-group mb-3">
+            <select class="form-control" formControlName="expensecode"  [(ngModel)]="expense_code" (change)="getExpenseById()" >
+                <option selected>--Select expense id--</option>
+                <option *ngFor="let e of Expenses">{{e.expense_code}}</option>
+            </select>
+        </div>
+        <div *ngIf="expense_code">
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">EXPENSE ID </th>
+                            <th scope="col">EXPENSE TYPE</th>
+                            <th scope="col">EXPENSE DESCRIPTION</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody *ngFor="let Expense of expenseService.Expenses">
+                        <tr>
+                            <th>{{Expense.expense_code}}</th>
+                            <td>{{Expense.expense_type}}</td>
+                            <td>{{Expense.expense_description}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> -->
+
+        
+
+        <label style="font-size: large;"><b>Start Date</b></label>
+        <div class="input-group mb-3">
+                <input   class="form-control" type="date" 
+                 [(ngModel)]="startDate" formControlName="start" [ngClass]="{ 'is-invalid': f.start.errors&&(f.start.touched||f.start.dirty) } ">
+                 <div *ngIf="f.start.errors&&(f.start.touched||f.start.dirty)" class="invalid-feedback">Enter valid date</div>
+        </div>
+        <div *ngIf="myform.errors?.dates1" class="alert alert-danger">{{ myform.errors?.dates1}} </div>
+
+        
+        
+        <label style="font-size: large;"><b>End Date</b></label>
+        <div class="input-group mb-3">
+            <input  class="form-control" type="date"
+             [(ngModel)]="endDate" formControlName="end" [ngClass]="{ 'is-invalid': f.end.errors &&(f.end.touched||f.end.dirty)}">
+        </div>
+        <div *ngIf="myform.errors?.dates" class="alert alert-danger">{{ myform.errors?.dates}}</div>
+        <div *ngIf="myform.errors?.dates2" class="alert alert-danger">{{ myform.errors?.dates2}} </div>
+<label style="font-size: large;"><b>Expense Cost</b></label>
+
+<div class="input-group mb-3">
+    <input type="number" class="form-control" placeholder="Enter Expense Cost" [(ngModel)]="expenseAmt"
+    formControlName="amount" [ngClass]="{ 'is-invalid': f.amount.errors &&(f.amount.touched||f.amount.dirty)}">
+    <div *ngIf="f.amount.errors&&!(f.amount.touched||f.amount.dirty)" class="invalid-feedback">Enter valid amount</div>
+</div>
+
+<div *ngIf="f.amount.errors?.min || f.amount.errors?.max" class="alert alert-danger">Only expenses between 1000 and 100000 can be claimed </div>
+
+<button class="btn btn-primary"  type="submit" [disabled]="(!myform.valid ||(!employeeService.employees[0] && employeeId))">Add </button>
+
+</form>
+</div>
